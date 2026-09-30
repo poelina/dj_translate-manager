@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приём заказов</title>
+    <link rel="stylesheet" href="{% static 'style/styles.css' %}">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        {% block header %}
+
+        <nav class="step-nav">
+
+            <div class="nav">
+                <span class="nav-link active" href="#">1</span>
+                <span class="nav-link" href="#">2</span>
+                <span class="nav-link" href="#">3</span>
+                <span class="nav-link" href="#">4</span>
+            </div>
+
+        </nav>
+
+        {% endblock header %}
+
+        {% block content %}
+
+        <main>
+            
+            <div class="content-container">
+
+                <form id="multi-step-form" method="POST" action="">
+
+                    <div class="form-step active" data-step="1">
+                        
+                        <h2>Выберите тип перевода</h2>
+
+                        <div class="form-group options-grid">
+                            <label class="option-card">
+                                <input type="radio" name="service_type" value="oral" required>
+                                <span>Устный перевод</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="service_type" value="written">
+                                <span>Письменный перевод</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="service_type" value="audio">
+                                <span>Перевод аудио в текст</span>
+                            </label>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-step" data-step="2">
+
+                        <h2>Детали заказа</h2>
+                        
+                        <div class="conditional-fields" id="fields-oral">
+                            <div class="form-group">
+                                <label for="id_date">Назначить дату когда:</label>
+                                <input type="date" id="id_date" name="date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            
+                            <label for="id_language">Язык оригинала:</label>
+                            <select id="id_language" name="language_pair">
+                                <option value="en">Английский</option>
+                                <option value="ru">Русский</option>
+                                <option value="es">Испанский</option>
+                            </select>
+
+                            <label for="id_language">Язык перевода:</label>
+                            <select id="id_language" name="language_pair">
+                                <option value="en">Английский</option>
+                                <option value="ru">Русский</option>
+                                <option value="es">Испанский</option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-step" data-step="3">
+
+                        <h2>Оригинал и Сроки</h2>
+
+                        <div class="form-group">
+                            <label for="id_delivery_method">Выбор оригинала:</label>
+                            <select id="id_delivery_method" name="delivery_method">
+                                <option value="digital">Загрузить на сайте</option>
+                                <option value="post">Отправить по физической почте</option>
+                                <option value="office">Отдать лично (записаться в офис)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_deadline">Выбор сроков:</label>
+                            <select id="id_deadline" name="deadline">
+                                <option value="standard">Стандартный срок</option>
+                                <option value="urgent">Срочно</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-step" data-step="4">
+
+                        <h2>Проверка данных</h2>
+
+                        <p>Пожалуйста, проверьте введённые данные перед отправкой заказа.</p>
+                        <!-- Summary values can be mirrored here with JS if wanted -->
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="submit" class="btn btn-submit">Оформить заказ</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+        {% endblock content %}
+
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('multi-step-form');
+            const steps = Array.from(form.querySelectorAll('.form-step'));
+            const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+            let currentStep = 1;
+
+            function updateFormView() {
+                steps.forEach(step => {
+                    step.classList.toggle('active', parseInt(step.dataset.step) === currentStep);
+                });
+                navLinks.forEach(link => {
+                    const stepNum = parseInt(link.dataset.step);
+                    link.classList.toggle('active', stepNum === currentStep);
+                    link.classList.toggle('completed', stepNum < currentStep);
+                });
+            }
+
+            form.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-next')) {
+                    if (currentStep < steps.length) {
+                        currentStep++;
+                        updateFormView();
+                    }
+                } else if (e.target.classList.contains('btn-prev')) {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        updateFormView();
+                    }
+                }
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
