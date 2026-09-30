@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Письменные переводы</title>
+    <link rel="stylesheet" href="{% static 'style/styles.css' %}">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        {% block header %}
+
+        <nav class="step-nav">
+
+            <div class="nav">
+                <a class="nav-link" data-step="0" href="{% url 'main' %}">?</a>
+                <a class="nav-link active" data-step="1" href="#">1</a>
+                <a class="nav-link" data-step="2" href="#">2</a>
+                <a class="nav-link" data-step="3" href="#">3</a>
+                <a class="nav-link" data-step="4" href="#">4</a>
+                <a class="nav-link" data-step="5" href="#">5</a>
+            </div>
+
+        </nav>
+
+        {% endblock header %}
+
+        {% block content %}
+
+        <main>
+            
+            <div class="content-container">
+
+                <form id="multi-step-form" method="POST" action="" enctype="multipart/form-data">
+
+
+                    <!-- ** ШАГ 1 - Язык -->  
+
+
+                    <div class="form-step active" data-step="1">
+
+                        <h2>Языковая пара</h2>
+                        
+                        <div class="form-group">
+                            
+                            <label for="id_lang_from">Язык оригинала:</label>
+                            <select id="id_lang_from" name="language_from">
+                                <option value="en">Английский</option>
+                                <option value="ar">Арабский</option>
+                                <option value="zh">Китайский</option>
+                                <option value="es">Испанский</option>
+                                <option value="de">Немецкий</option>
+                                <option value="ru">Русский</option>
+                                <option value="fr">Французкий</option>
+                            </select>
+
+                            <label for="id_lang_to">Язык перевода:</label>
+                            <select id="id_lang_to" name="language_to">
+                                <option value="en">Английский</option>
+                                <option value="ar">Арабский</option>
+                                <option value="zh">Китайский</option>
+                                <option value="es">Испанский</option>
+                                <option value="de">Немецкий</option>
+                                <option value="ru">Русский</option>
+                                <option value="fr">Французкий</option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-buttons">
+                            <a href="{% url 'main' %}" class="btn btn-prev">Назад</a>
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 2 - Оригинал --> 
+
+
+                    <div class="form-step" data-step="2">
+
+                        <h2>Оригинал</h2>
+
+                        <div class="form-group">
+                            
+                            <label for="id_delivery_method">Выбор оригинала:</label>
+                            <select id="id_delivery_method" name="delivery_method">
+                                <option value="digital">Загрузить файл</option>
+                                <option value="post">Отправить по физической почте</option>
+                                <option value="office">Передать лично (записаться в офис)</option>
+                            </select>
+
+                            <div id="panel-digital" class="conditional-panel" style="margin-top: 15px;">
+                                <label for="id_file">Загрузите документ:</label>
+                                <input type="file" id="id_file" name="document_file">
+                            </div>
+
+                            <div id="panel-physical" class="conditional-panel hidden" style="margin-top: 15px; padding: 12px; background: #edf2f7; border-radius: 6px;">
+                                <label for="id_address">Адрес доставки / Инструкции:</label>
+                                <div style="padding: 12px; background: #edf2f7; border-radius: 6px; color: #4a5568;">
+                                    📍 Наш адрес офиса: ул. Примерная, д. 1, офис 2.
+                                </div>
+                            </div>
+
+                            <label for="id_page_count" style="margin-top: 15px;">Кол-во страниц:</label>
+                            <input id="id_page_count" name="page_count" type="number" min="1" max="10000" value="1">
+
+                            <div class="form-buttons">
+                                <button type="button" class="btn btn-prev">Назад</button>
+                                <button type="button" class="btn btn-next">Далее</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 3 - Сроки --> 
+                    
+
+                    <div class="form-step" data-step="3">
+
+                        <h2>Сроки исполнения</h2>
+
+                        <div class="form-group">
+                            
+                            <label for="id_date">Назначить дедлайн:</label>
+                            <input type="date" id="id_date" name="deadline_date" required>
+
+                        </div>
+                            
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 4 - Контактные данные --> 
+                    
+                    <div class="form-step" data-step="4">
+
+                        <h2>Контактные данные</h2>
+
+                        <div class="form-group">
+
+                            <label for="id_first_name">Имя:</label>
+                            <input type="text" id="id_first_name" name="first_name" required>
+
+                            <label for="id_last_name" style="margin-top: 15px;">Фамилия:</label>
+                            <input type="text" id="id_last_name" name="last_name" required>
+
+                            <label for="id_email" style="margin-top: 15px;">Электронная почта:</label>
+                            <input type="email" id="id_email" name="email" required>
+
+                            <label for="id_phone" style="margin-top: 15px;">Телефон:</label>
+                            <input type="tel" id="id_phone" name="phone" placeholder="+7 (999) 000-00-00" required>
+
+                            <label style="margin-top: 20px; display: flex; align-items: center; gap: 8px; font-weight: normal;">
+                                <input type="checkbox" id="id_is_company" name="is_company">
+                                Заказываю как юридическое лицо (компания)
+                            </label>
+
+                            <div id="company-fields" class="hidden" style="margin-top: 15px;">
+                                <label for="id_company_name">Название компании:</label>
+                                <input type="text" id="id_company_name" name="company_name">
+                            </div>
+
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 5 - Проверка -->
+
+
+                    <div class="form-step" data-step="5">
+
+                        <h2>Проверка данных</h2>
+
+                        <p>Пожалуйста, проверьте введённые данные перед отправкой заказа.</p>
+                        
+                        <div class="summary-box" style="background: #f7fafc; padding: 15px; border-radius: 6px; border: 1px dashed #cbd5e0; margin-bottom: 20px;">
+                            
+                            <div><strong>Языковая пара:</strong> 
+                                <span id="sum-route"></span>
+                            </div>
+                            <div style="margin-top: 8px;"><strong>Способ подачи:</strong> 
+                                <span id="sum-delivery"></span>
+                            </div>
+                            <div style="margin-top: 8px;"><strong>Кол-во листов:</strong> 
+                                <span id="sum-pages"></span>
+                            </div>
+                            <div style="margin-top: 8px;"><strong>Дедлайн:</strong> 
+                                <span id="sum-date"></span>
+                            </div>
+                            <div style="margin-top: 8px;"><strong>Заказчик:</strong> 
+                                <span id="sum-user"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="submit" class="btn btn-submit">Оформить заказ</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+        {% endblock content %}
+
+    </div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('multi-step-form');
+        const steps = Array.from(document.querySelectorAll('.form-step'));
+        const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+        
+        let currentStep = 1;
+        let maxStepReached = 1;
+
+        const deliverySelect = document.getElementById('id_delivery_method');
+        const panelDigital = document.getElementById('panel-digital');
+        const panelPhysical = document.getElementById('panel-physical');
+        const fileInput = document.getElementById('id_file');
+
+        if (deliverySelect) {
+            deliverySelect.addEventListener('change', () => {
+                if (deliverySelect.value === 'digital') {
+                    if (panelDigital) panelDigital.classList.remove('hidden');
+                    if (panelPhysical) panelPhysical.classList.add('hidden');
+                    if (fileInput) fileInput.required = true;
+                } else {
+                    if (panelDigital) panelDigital.classList.add('hidden');
+                    if (panelPhysical) panelPhysical.classList.remove('hidden');
+                    if (fileInput) {
+                        fileInput.required = false;
+                        fileInput.value = '';
+                    }
+                }
+            });
+        }
+
+        const dateInput = document.getElementById('id_date');
+        if (dateInput) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            dateInput.min = tomorrow.toISOString().split('T')[0];
+        }
+
+        const isCompanyCheckbox = document.getElementById('id_is_company');
+        if (isCompanyCheckbox) {
+            isCompanyCheckbox.addEventListener('change', (e) => {
+                const compFields = document.getElementById('company-fields');
+                const companyNameInput = document.getElementById('id_company_name');
+                
+                if (compFields) compFields.classList.toggle('hidden', !e.target.checked);
+                if (companyNameInput) companyNameInput.required = e.target.checked;
+            });
+        }
+
+        function renderStep() {
+            steps.forEach(step => {
+                step.classList.toggle('active', parseInt(step.dataset.step) === currentStep);
+            });
+
+            if (currentStep > maxStepReached) maxStepReached = currentStep;
+
+            navLinks.forEach(link => {
+                const stepNum = parseInt(link.dataset.step);
+                if (stepNum === 0) return;
+
+                link.classList.remove('active', 'completed', 'disabled');
+                if (stepNum === currentStep) {
+                    link.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    link.classList.add('completed');
+                }
+                if (stepNum > maxStepReached) {
+                    link.classList.add('disabled');
+                }
+            });
+
+            if (currentStep === 5) {
+                generateSummary();
+            }
+        }
+
+        function generateSummary() {
+            const fromLangEl = document.getElementById('id_lang_from');
+            const toLangEl = document.getElementById('id_lang_to');
+            const pageCountEl = document.getElementById('id_page_count');
+            const firstNameEl = document.getElementById('id_first_name');
+            const lastNameEl = document.getElementById('id_last_name');
+
+            const fromLang = fromLangEl ? fromLangEl.options[fromLangEl.selectedIndex].text : '';
+            const toLang = toLangEl ? toLangEl.options[toLangEl.selectedIndex].text : '';
+
+            const routeContainer = document.getElementById('sum-route');
+            if (routeContainer) routeContainer.textContent = `${fromLang} ➔ ${toLang}`;
+            
+            const deliveryContainer = document.getElementById('sum-delivery');
+            if (deliveryContainer && deliverySelect) {
+                deliveryContainer.textContent = deliverySelect.options[deliverySelect.selectedIndex].text;
+            }
+            
+            const pagesContainer = document.getElementById('sum-pages');
+            if (pagesContainer && pageCountEl) pagesContainer.textContent = pageCountEl.value;
+            
+            const dateContainer = document.getElementById('sum-date');
+            if (dateContainer && dateInput) dateContainer.textContent = dateInput.value || 'Не указана';
+
+            const userContainer = document.getElementById('sum-user');
+            if (userContainer && firstNameEl && lastNameEl) {
+                userContainer.textContent = `${firstNameEl.value} ${lastNameEl.value}`;
+            }
+        }
+
+        if (form) {
+            form.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-next')) {
+                    const activeContainer = form.querySelector('.form-step.active');
+                    const elementsToValidate = activeContainer.querySelectorAll('input, select');
+                    let valid = true;
+
+                    elementsToValidate.forEach(el => {
+                        if (!el.checkValidity()) {
+                            el.reportValidity();
+                            valid = false;
+                        }
+                    });
+
+                    if (valid && currentStep < 5) {
+                        currentStep++;
+                        renderStep();
+                    }
+                } else if (e.target.classList.contains('btn-prev')) {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        renderStep();
+                    }
+                }
+            });
+        }
+
+        const navContainer = document.querySelector('.nav');
+        if (navContainer) {
+            navContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('.nav-link');
+                if (!target || target.dataset.step === "0" || target.classList.contains('disabled')) return;
+                e.preventDefault();
+                currentStep = parseInt(target.dataset.step);
+                renderStep();
+            });
+        }
+    });
+
+</script>

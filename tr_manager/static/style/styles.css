@@ -57,6 +57,7 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    text-decoration: none;
     color: var(--muted-color);
     transition: all 0.3s ease;
     user-select: none;
@@ -184,4 +185,12 @@ input[type="date"], select {
 
 .btn-prev:hover {
     background-color: #cbd5e0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.hidden {
+    display: none !important;
 }
