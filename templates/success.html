@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ оформлен</title>
+    <link rel="stylesheet" href="{% static 'style/styles.css' %}">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        {% block content %}
+
+        <main>
+            
+            <div class="content-container success-card">
+                
+                <div class="success-icon">✓</div>
+
+                <h1 class="success-title">Спасибо за заказ!</h1>
+                
+                <p class="success-message">
+                    Ваша заявка успешно принята в обработку. 
+                </p>
+
+                {% if order_id %}
+                    <p class="order-number">
+                        Номер вашего заказа: <strong>#{{ order_id }}</strong>
+                    </p>
+                {% endif %}
+
+                <p class="success-info">
+                    Наш менеджер свяжется с вами по указанным контактным данным в ближайшее время для подтверждения заказа.
+                </p>
+
+                <div class="success-actions">
+                    <a href="{% url 'main' %}" class="btn btn-next btn-home">
+                        Вернуться на главную
+                    </a>
+                </div>
+
+            </div>
+            
+        </main>
+
+        {% endblock content %}
+
+    </div>
+
+</body>
+</html>

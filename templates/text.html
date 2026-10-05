@@ -37,6 +37,7 @@
 
                 <form id="multi-step-form" method="POST" action="" enctype="multipart/form-data">
 
+                    {% csrf_token %}
 
                     <!-- ** ШАГ 1 - Язык -->  
 
@@ -133,6 +134,10 @@
                             <input type="date" id="id_date" name="deadline_date" required>
 
                         </div>
+
+                        <div class="form-notice">
+                            ℹ️ Обратите внимание: указанный срок является желаемым. Итоговая дата выполнения может быть скорректирована в зависимости от объёма документа, текущей загруженности переводчиков и сложности тематики. Мы согласуем точный дедлайн при подтверждении заказа.
+                        </div>
                             
                         <div class="form-buttons">
                             <button type="button" class="btn btn-prev">Назад</button>
@@ -199,7 +204,7 @@
                             <div style="margin-top: 8px;"><strong>Способ подачи:</strong> 
                                 <span id="sum-delivery"></span>
                             </div>
-                            <div style="margin-top: 8px;"><strong>Кол-во листов:</strong> 
+                            <div style="margin-top: 8px;"><strong>Кол-во страниц:</strong> 
                                 <span id="sum-pages"></span>
                             </div>
                             <div style="margin-top: 8px;"><strong>Дедлайн:</strong> 
@@ -213,7 +218,7 @@
 
                         <div class="form-buttons">
                             <button type="button" class="btn btn-prev">Назад</button>
-                            <button type="submit" class="btn btn-submit">Оформить заказ</button>
+                            <button type="submit" id="final-submit-btn" class="btn btn-submit">Оформить заказ</button>
                         </div>
 
                     </div>
@@ -343,6 +348,8 @@
                     let valid = true;
 
                     elementsToValidate.forEach(el => {
+                        if (el.closest('.hidden')) return;
+                        
                         if (!el.checkValidity()) {
                             el.reportValidity();
                             valid = false;
@@ -353,7 +360,8 @@
                         currentStep++;
                         renderStep();
                     }
-                } else if (e.target.classList.contains('btn-prev')) {
+                } 
+                else if (e.target.classList.contains('btn-prev')) {
                     if (currentStep > 1) {
                         currentStep--;
                         renderStep();
