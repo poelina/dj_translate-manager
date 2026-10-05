@@ -96,15 +96,23 @@
                                 <option value="office">Передать лично (записаться в офис)</option>
                             </select>
 
-                            <div id="panel-digital" class="conditional-panel" style="margin-top: 15px;">
+                            <div id="panel-digital" class="conditional-panel">
                                 <label for="id_file">Загрузите документ:</label>
                                 <input type="file" id="id_file" name="document_file">
                             </div>
 
-                            <div id="panel-physical" class="conditional-panel hidden" style="margin-top: 15px; padding: 12px; background: #edf2f7; border-radius: 6px;">
-                                <label for="id_address">Адрес доставки / Инструкции:</label>
-                                <div style="padding: 12px; background: #edf2f7; border-radius: 6px; color: #4a5568;">
+                            <div id="panel-physical" class="conditional-panel hidden">
+                                <label for="id_address">Адрес доставки:</label>
+                                <div class="office-address-box">
                                     📍 Наш адрес офиса: ул. Примерная, д. 1, офис 2.
+                                </div>
+                            </div>
+
+                            <div id="panel-office" class="conditional-panel hidden">
+                                <label for="id_address">Адрес:</label>
+                                <div class="office-address-box">
+                                    <div>📍 Наш адрес офиса: ул. Примерная, д. 1, офис 2.</div>
+                                    <div>⌚ Рабочие часы: пн-пт с 9:00 до 17:00</div>
                                 </div>
                             </div>
 
@@ -158,21 +166,21 @@
                             <label for="id_first_name">Имя:</label>
                             <input type="text" id="id_first_name" name="first_name" required>
 
-                            <label for="id_last_name" style="margin-top: 15px;">Фамилия:</label>
+                            <label for="id_last_name" style="margin-top: 10px;">Фамилия:</label>
                             <input type="text" id="id_last_name" name="last_name" required>
 
-                            <label for="id_email" style="margin-top: 15px;">Электронная почта:</label>
+                            <label for="id_email" style="margin-top: 10px;">Электронная почта:</label>
                             <input type="email" id="id_email" name="email" required>
 
-                            <label for="id_phone" style="margin-top: 15px;">Телефон:</label>
-                            <input type="tel" id="id_phone" name="phone" placeholder="+7 (999) 000-00-00" required>
+                            <label for="id_phone" style="margin-top: 10px;">Телефон:</label>
+                            <input type="tel" id="id_phone" name="phone" placeholder="+7" required>
 
-                            <label style="margin-top: 20px; display: flex; align-items: center; gap: 8px; font-weight: normal;">
+                            <label style="margin-top: 10px; display: flex; align-items: center; gap: 8px; font-weight: normal;">
                                 <input type="checkbox" id="id_is_company" name="is_company">
                                 Заказываю как юридическое лицо (компания)
                             </label>
 
-                            <div id="company-fields" class="hidden" style="margin-top: 15px;">
+                            <div id="company-fields" class="hidden" style="margin-top: 10px;">
                                 <label for="id_company_name">Название компании:</label>
                                 <input type="text" id="id_company_name" name="company_name">
                             </div>
@@ -246,21 +254,32 @@
         const deliverySelect = document.getElementById('id_delivery_method');
         const panelDigital = document.getElementById('panel-digital');
         const panelPhysical = document.getElementById('panel-physical');
+        const panelOffice = document.getElementById('panel-office');
         const fileInput = document.getElementById('id_file');
 
         if (deliverySelect) {
             deliverySelect.addEventListener('change', () => {
+                if (fileInput) {
+                    fileInput.required = false;
+                }
+
                 if (deliverySelect.value === 'digital') {
                     if (panelDigital) panelDigital.classList.remove('hidden');
                     if (panelPhysical) panelPhysical.classList.add('hidden');
+                    if (panelOffice) panelOffice.classList.add('hidden');
                     if (fileInput) fileInput.required = true;
-                } else {
+
+                } else if (deliverySelect.value === 'post') {
                     if (panelDigital) panelDigital.classList.add('hidden');
                     if (panelPhysical) panelPhysical.classList.remove('hidden');
-                    if (fileInput) {
-                        fileInput.required = false;
-                        fileInput.value = '';
-                    }
+                    if (panelOffice) panelOffice.classList.add('hidden');
+                    if (fileInput) fileInput.value = '';
+
+                } else if (deliverySelect.value === 'office') {
+                    if (panelDigital) panelDigital.classList.add('hidden');
+                    if (panelPhysical) panelPhysical.classList.add('hidden');
+                    if (panelOffice) panelOffice.classList.remove('hidden');
+                    if (fileInput) fileInput.value = '';
                 }
             });
         }
@@ -332,7 +351,7 @@
             if (pagesContainer && pageCountEl) pagesContainer.textContent = pageCountEl.value;
             
             const dateContainer = document.getElementById('sum-date');
-            if (dateContainer && dateInput) dateContainer.textContent = dateInput.value || 'Не указана';
+            if (dateContainer && dateInput) dateContainer.textContent = dateInput.value || 'Не указан';
 
             const userContainer = document.getElementById('sum-user');
             if (userContainer && firstNameEl && lastNameEl) {

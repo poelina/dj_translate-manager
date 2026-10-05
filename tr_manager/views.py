@@ -1,6 +1,9 @@
+import logging
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Order
+
+logger = logging.getLogger('tr_manager')
 
 def main(request):
 
@@ -25,7 +28,10 @@ def text(request):
 
         uploaded_file = request.FILES.get('document_file')
 
+        logger.debug(f"Payload received - User: {email}, Route: {lang_from}->{lang_to}, Method: {delivery}")
+
         if not all([lang_from, lang_to, first_name, last_name, email, phone]):
+            logger.warning(f"Form validation aborted. Missing required fields for user: {email}")
             messages.error(request, "Пожалуйста, заполните все обязательные поля формы.")
             return render(request, 'text.html')
 
@@ -45,12 +51,15 @@ def text(request):
                 company_name=company_name,
                 document_file=uploaded_file
             )
+
+            logger.info(f"Order #{order.id} CREATED successfully. Service: text | Client: {last_name} ({email})")
             
             request.session['latest_order_id'] = order.id
             messages.success(request, "Ваш заказ успешно принят в обработку!")
             return redirect('order_success')
 
         except Exception as e:
+            logger.exception(f"DATABASE TRANSACTION FAILED for order request by user {email}. Error: {e}")
             messages.error(request, f"Произошла непредвиденная ошибка системы базы данных: {e}")
 
     return render(request, 'text.html')
