@@ -110,6 +110,7 @@ h2 {
 .form-group label {
     display: block;
     margin-bottom: 8px;
+    margin-top: 15px;
     font-weight: 500;
 }
 
@@ -200,6 +201,7 @@ a {
 /* TEXT.HTML */
 
 
+
 .conditional-panel {
     margin-top: 15px;
 }
@@ -233,6 +235,18 @@ a {
 
 .iti {
     width: 100%;
+}
+
+.summary-box {
+    background: #f7fafc;
+    padding: 15px; 
+    border-radius: 6px; 
+    border: 1px dashed #cbd5e0; 
+    margin-bottom: 20px;
+}
+
+.summary-box div {
+    margin-top: 8px;
 }
 
 

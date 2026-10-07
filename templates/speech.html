@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Устные переводы</title>
+    <link rel="stylesheet" href="{% static 'style/styles.css' %}">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        {% block header %}
+
+        <nav class="step-nav">
+
+            <div class="nav">
+
+                <a class="nav-link" data-step="0" href="{% url 'main' %}">?</a>
+                <a class="nav-link active" data-step="1" href="#">1</a>
+                <a class="nav-link" data-step="2" href="#">2</a>
+                <a class="nav-link" data-step="3" href="#">3</a>
+                <a class="nav-link" data-step="4" href="#">4</a>
+
+            </div>
+
+        </nav>
+
+        {% endblock header %}
+        {% block content %}
+
+        <main>
+
+            <div class="content-container">
+
+                <form id="multi-step-form" method="POST" action="" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+
+                    <!-- ** ШАГ 1 - Язык -->
+
+
+                    <div class="form-step active" data-step="1">
+
+                        <h2>Языковая пара</h2>
+
+                        <div class="form-group">
+
+                            <label for="id_lang_form">Язык оригинала:</label>
+                            <select id="id_lang_form" name="language_form">
+
+                                <option value="en" selected>Английский</option>
+                                <option value="ar">Арабский</option>
+                                <option value="bn">Бенгальский</option>
+                                <option value="zh">Китайский</option>
+                                <option value="es">Испанский</option>
+                                <option value="de">Немецкий</option>
+                                <option value="ru">Русский</option>
+                                <option value="tr">Турецкий</option>
+                                <option value="fr">Французкий</option>
+                                <option value="jp">Японский</option>
+
+                            </select>
+
+                            <label for="id_lang_to">Язык перевода:</label>
+                            <select id="id_lang_to" name="language_to">
+
+                                <option value="en">Английский</option>
+                                <option value="ar">Арабский</option>
+                                <option value="bn">Бенгальский</option>
+                                <option value="zh">Китайский</option>
+                                <option value="es">Испанский</option>
+                                <option value="de">Немецкий</option>
+                                <option value="ru" selected>Русский</option>
+                                <option value="tr">Турецкий</option>
+                                <option value="fr">Французкий</option>
+                                <option value="jp">Японский</option>
+                                
+                            </select>
+
+                        </div>
+
+                        <h2>Вид устного перевода</h2>
+
+                        <div class="form-group">
+
+                            <label for="id_speech_type">Выберите вид:</label>
+                            <select id="id_speech_type" name="speech_type">
+
+                                <option value="simult">Синхронный перевод</option>
+                                <option value="consec">Последовательный перевод</option>
+                                <option value="chuch">Шушутаж</option>
+                                <option value="fromtext">Перевод с листа</option>
+                                <option value="double">Двусторонний перевод</option>
+                                <option value="type-other">Другое</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-buttons">
+
+                            <a href="{% url 'main' %}" class="btn btn-prev">Назад</a>
+                            <button type="button" class="btn btn-next">Далее</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 2 - Дата встречи -->
+
+
+                    <div class="form-step" data-step="2">
+
+                        <h2>Дата и место</h2>
+
+                        <div class="form-group">
+
+                            <label for="id_meet_type">Тип встречи:</label>
+                            <select id="id_meet_type" name="meet_type">
+
+                                <option value="online-vid">Онлайн (видеозвонок)</option>
+                                <option value="offline">Лично</option>
+                                
+                            </select>
+
+                            <div id="panel-online" class="conditional-panel">
+
+                                <label for="id_online">Сервис для видеосвязи (+ ссылка если есть)</label>
+                                <input type="text" id="id_online" name="type_online" required>
+
+                            </div>
+
+                            <div id="panel-offline" class="conditional-panel" hidden>
+
+                                <h2>Адрес</h2>
+
+                                <label for="id_offline_address">Улица, дом, город, страна</label>
+                                <input type="text" id="id_offline_address" name="offline_address" required>
+
+                            </div>
+
+                            <div class="form-buttons">
+
+                                <button type="button" class="btn btn-prev">Назад</button>
+                                <button type="button" class="btn btn-next">Далее</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 3 - Дата -->
+                    
+
+                    <div class="form-step" data-step="3">
+
+                        <h2>Дата</h2>
+
+                        <div class="form-group">
+                            
+                            <label for="id_date">Назначить время:</label>
+                            <input type="date" id="id_date" name="deadline_date" required>
+
+                        </div>
+
+                        <div class="form-notice">
+                            ℹ️ Обратите внимание: указанный срок является желаемым. Итоговая дата выполнения может быть скорректирована в зависимости от места проведения, текущей загруженности переводчиков и сложности тематики. Мы согласуем точный дедлайн при подтверждении заказа.
+                        </div>
+                            
+                        <div class="form-buttons">
+
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+
+                        </div>
+
+                    </div>
+                    
+
+                    <!-- ** ШАГ 4 - Контактные данные --> 
+
+                    
+                    <div class="form-step" data-step="4">
+
+                        <h2>Контактные данные</h2>
+
+                        <div class="form-group">
+
+                            <label for="id_first_name">Имя:</label>
+                            <input type="text" id="id_first_name" name="first_name" required>
+
+                            <label for="id_last_name">Фамилия:</label>
+                            <input type="text" id="id_last_name" name="last_name" required>
+
+                            <label for="id_email">Электронная почта:</label>
+                            <input type="email" id="id_email" name="email" required>
+
+                            <label for="id_phone">Телефон:</label>
+                            <input type="tel" id="id_phone" name="phone" required>
+
+                            <label style="display: flex; align-items: center; gap: 8px; font-weight: normal;">
+
+                                <input type="checkbox" id="id_is_company" name="is_company">
+                                Заказываю как юридическое лицо (компания)
+                            </label>
+
+                            <div id="company-fields" class="hidden" style="margin-top: 10px;">
+
+                                <label for="id_company_name">Название компании:</label>
+                                <input type="text" id="id_company_name" name="company_name">
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-buttons">
+
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="button" class="btn btn-next">Далее</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ** ШАГ 5 - Проверка -->
+
+                    
+                    <div class="form-step" data-step="5">
+
+                        <h2>Проверка данных</h2>
+
+                        <p>Пожалуйста, проверьте введённые данные перед отправкой заказа.</p>
+                        
+                        <div class="summary-box">
+                            
+                            <div><strong>Языковая пара:</strong> 
+                                <span id="sum-route"></span>
+                            </div>
+                            <div><strong>Вид перевода:</strong> 
+                                <span id="sum-speech-type"></span>
+                            </div>
+                            <div><strong>Тип встречи:</strong> 
+                                <span id="sum-meet-type"></span>
+                            </div>
+                            <div><strong>Дата:</strong> 
+                                <span id="sum-date"></span>
+                            </div>
+                            <div><strong>Заказчик:</strong> 
+                                <span id="sum-user"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="button" class="btn btn-prev">Назад</button>
+                            <button type="submit" id="final-submit-btn" class="btn btn-submit">Оформить заказ</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+        {% endblock content %}
+
+    </div>
+
+</body>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('multi-step-form');
+        const steps = Array.from(document.querySelectorAll('.form-step'));
+        const navlinks = Array.from(document.querySelectorAll('.nav-link'));
+
+        let currentStep = 1;
+        let maxStepReached = 1;
+
+        const meetType = document.getElementById('id_meet_type');
+        const panelOnline = document.getElementById('panel-online');
+        const panelOffline = document.getElementById('panel-offline');
+        const initialInput = document.getElementById('id_online');
+
+        if(meetType) {
+            meetType.addEventListener('change', () => {
+                if (initialInput) {
+                    initialInput.required = false;
+                }
+                
+                if (meetType.value === 'online-vid') {
+                    if (panelOnline) panelOnline.classList.remove('hidden');
+                    if (panelOffline) panelOffline.classList.add('hidden')
+                    if (initialInput) initialInput.required = true;
+
+                } else if (meetType.value === 'offline') {
+                    if (panelOnline) panelOnline.classList.add('hidden');
+                    if (panelOffline) panelOffline.classList.remove('hdden');
+                    if (initialInput) initialInput.value = '';
+                }
+            });
+        }
+
+        const dateInput = document.getElementById('id_date');
+        if (dateInput) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.get(Date) + 1);
+            dateInput.min = tomorrow.toISOString().split('T')[0];
+        }
+
+        const isCompanyCheckbox = document.getElementById('id_is_company');
+        if (isCompanyCheckbox) {
+            isCompanyCheckbox.addEventListener('change', (e) => {
+                const compFields = document.getElementById('company-fields');
+                const companyNameInput = document.getElementById('id_company_name');
+
+                if (compFields) compFields.classList.toggle('hidden', !e.target.checked);
+                if (companyNameInput) companyNameInput.required = e.target.checked;
+            });
+        }
+        
+        function renderStep() {
+            steps.forEach(step => {
+                step.classList.toggle('active', parseInt(step.dataset.step) === currentStep);
+            });
+
+            if (currentStep > maxStepReached) maxStepReached = currentStep;
+
+            navLinks.forEach(link => {
+                const stepNum = parseInt(link.dataset.step);
+                if (stepNum === 0) return;
+
+                link.classList.remove('active', 'completed', 'disabled');
+                if (stepNum === currentStep) {
+                    link.classList.add('active');
+                } else if (stepNum < currentStep) {
+                    link.classList.add('completed');
+                }
+                if (stepNum > maxStepReached) {
+                    link.classList.add('disabled');
+                }
+            });
+
+            if (currentStep === 5) {
+                generateSummary();
+            }
+        }
+
+        function generateSummary() {
+            const fromLangEl = document.getElementById('id_lang_from');
+            const toLangEl = document.getElementById('id_lang_to');
+            const speechType = document.getElementById('id_speech_type');
+            const meetType = document.getElementById('id_meet_type');
+            const firstNameEl = document.getElementById('id_first_name');
+            const lastNameEl = document.getElementById('id_last_name');
+
+            const fromLang = fromLangEl ? fromLangEl.options[fromLangEl.selectedIndex].text : '';
+            const toLang = toLangEl ? toLangEl.options[toLangEl.selectedIndex].text : '';
+
+            const routeContainer = document.getElementById('sum-route');
+            if (routeContainer) routeContainer.textContent = `${fromLang} ➔ ${toLang}`;
+            
+            const speechTypeContainer = document.getElementById('sum-speech-type');
+            if (speechTypeContainer && speechType) {
+                speechTypeContainer.textContent = speechType.options[speechTypeContainer.selectedIndex].text;
+            }
+
+            const meetTypeContainer = document.getElementById('sum-meet-type');
+            if (meetTypeContainer && meetType) {
+                meetTypeContainer.textContent = meetType.options[meetTypeContainer.selectedIndex].text;
+            }
+                        
+            const dateContainer = document.getElementById('sum-date');
+            if (dateContainer && dateInput) dateContainer.textContent = dateInput.value || 'Не указан';
+
+            const userContainer = document.getElementById('sum-user');
+            if (userContainer && firstNameEl && lastNameEl) {
+                userContainer.textContent = `${firstNameEl.value} ${lastNameEl.value}`;
+            }
+        }
+
+        if (form) {
+            form.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-next')) {
+                    const activeContainer = form.querySelector('.form-step.active');
+                    const elementsToValidate = activeContainer.querySelectorAll('input, select');
+                    let valid = true;
+
+                    elementsToValidate.forEach(el => {
+                        if (el.closest('.hidden')) return;
+                        
+                        if (!el.checkValidity()) {
+                            el.reportValidity();
+                            valid = false;
+                        }
+                    });
+
+                    if (valid && currentStep < 5) {
+                        currentStep++;
+                        renderStep();
+                    }
+                } 
+                else if (e.target.classList.contains('btn-prev')) {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        renderStep();
+                    }
+                }
+            });
+        }
+
+        const navContainer = document.querySelector('.nav');
+        if (navContainer) {
+            navContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('.nav-link');
+                if (!target || target.dataset.step === "0" || target.classList.contains('disabled')) return;
+                e.preventDefault();
+                currentStep = parseInt(target.dataset.step);
+                renderStep();
+            });
+        }
+    });
+
+</script>
+
+</html>

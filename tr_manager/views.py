@@ -67,7 +67,53 @@ def text(request):
 def speech(request):
 
     if request.method == 'POST':
-        pass #!
+        lang_from = request.POST.get('language_from')
+        lang_to = request.POST.get('language_to')
+        speech_type = request.POST.get('speech_type')
+        meet_type = request.POST.get('meet_type')
+        deadline = request.POST.get('deadline_date')
+        
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        
+        is_company = request.POST.get('is_company') == 'on'
+        company_name = request.POST.get('company_name') if is_company else None
+
+        logger.debug(f"Payload received - User: {email}, Route: {lang_from}->{lang_to}, Type: {speech_type}, Meet: {meet_type}")
+
+        if not all([lang_from, lang_to, first_name, last_name, email, phone]):
+            logger.warning(f"Form validation aborted. Missing required fields for user: {email}")
+            messages.error(request, "Пожалуйста, заполните все обязательные поля формы.")
+            return render(request, 'speech.html')
+
+        try:
+            order = Order.objects.create(
+                service_type='text',
+                language_from=lang_from,
+                language_to=lang_to,
+                speech_type=speech,
+                meet_type=meet,
+                deadline_date=deadline if deadline else None,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                is_company=is_company,
+                company_name=company_name
+            )
+
+            logger.info(f"Order #{order.id} CREATED successfully. Service: text | Client: {last_name} ({email})")
+            
+            request.session['latest_order_id'] = order.id
+            messages.success(request, "Ваш заказ успешно принят в обработку!")
+            return redirect('order_success')
+
+        except Exception as e:
+            logger.exception(f"DATABASE TRANSACTION FAILED for order request by user {email}. Error: {e}")
+            messages.error(request, f"Произошла непредвиденная ошибка системы базы данных: {e}")
+        
     return render(request, 'speech.html')
 
 def audio(request):
