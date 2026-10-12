@@ -1,0 +1,27 @@
+2026-10-12 19:13:41,301 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: li3@mail.ru
+2026-10-12 19:24:25,288 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: fgh@mail.ru
+2026-10-12 19:31:53,069 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: kjryl@mail.ru
+2026-10-12 19:45:33,116 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: lkjfh@mail.ru
+2026-10-12 20:03:38,389 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: st@mail.ru
+2026-10-12 20:04:07,965 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: 345@mail.ru
+2026-10-12 20:06:27,609 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: lfkdhj@mail.ru
+2026-10-12 20:07:43,898 [WARNING] tr_manager -> Speech order validation rejected. Missing mandatory configuration options for user: st@mail.ru
+2026-10-12 20:09:33,076 [ERROR] tr_manager -> DATABASE TRANSACTION FAILED for order request by user ldkgjh@mail.ru. Error: Order() got unexpected keyword arguments: 'meet_type', 'type_online', 'offline_address', 'deadline'
+Traceback (most recent call last):
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\tr_manager\views.py", line 106, in speech
+    order = Order.objects.create(
+        service_type='speech',
+    ...<12 lines>...
+        company_name=company_name
+    )
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\query.py", line 750, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\base.py", line 610, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Order() got unexpected keyword arguments: 'meet_type', 'type_online', 'offline_address', 'deadline'
+2026-10-12 20:15:58,630 [INFO] tr_manager -> SUCCESS: Speech translation order #5 committed into database layout for client lkdjh@mail.ru

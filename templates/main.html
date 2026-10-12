@@ -50,10 +50,6 @@
                                 <input type="radio" name="service_type" value="text">
                                 <span>Письменный перевод</span>
                             </label>
-                            <label class="option-card">
-                                <input type="radio" name="service_type" value="audio">
-                                <span>Перевод аудио в текст</span>
-                            </label>
                         </div>
 
                         <div class="form-buttons">
@@ -92,8 +88,6 @@
                     window.location.href = "{% url 'text' %}";
                 } else if (selectedService === 'speech') {
                     window.location.href = "{% url 'speech' %}";
-                } else if (selectedService === 'audio') {
-                    window.location.href = "{% url 'audio' %}";
                 }
             }
         });

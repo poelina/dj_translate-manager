@@ -7,6 +7,5 @@ urlpatterns = [
     path('', views.main, name='main'),
     path('text/', views.text, name='text'),
     path('speech/', views.speech, name='speech'),
-    path('audio/', views.audio, name='audio'),
     path('success/', views.order_success, name='order_success'),
 ]

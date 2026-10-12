@@ -1,0 +1,18 @@
+2026-10-12 20:09:33,076 [ERROR] tr_manager -> DATABASE TRANSACTION FAILED for order request by user ldkgjh@mail.ru. Error: Order() got unexpected keyword arguments: 'meet_type', 'type_online', 'offline_address', 'deadline'
+Traceback (most recent call last):
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\tr_manager\views.py", line 106, in speech
+    order = Order.objects.create(
+        service_type='speech',
+    ...<12 lines>...
+        company_name=company_name
+    )
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\query.py", line 750, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\base.py", line 610, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Order() got unexpected keyword arguments: 'meet_type', 'type_online', 'offline_address', 'deadline'

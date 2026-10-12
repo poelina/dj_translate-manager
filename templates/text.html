@@ -256,6 +256,10 @@
 
                         </div>
 
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e0; color: #2b6cb0;">
+                            <strong>Предварительная стоимость:</strong> <span id="sum-price" style="font-size: 1.2rem; font-weight: bold;">0 ₽</span>
+                        </div>
+
                         <div class="form-buttons">
                             <button type="button" class="btn btn-prev">Назад</button>
                             <button type="submit" id="final-submit-btn" class="btn btn-submit">Оформить заказ</button>
@@ -391,6 +395,16 @@
             if (userContainer && firstNameEl && lastNameEl) {
                 userContainer.textContent = `${firstNameEl.value} ${lastNameEl.value}`;
             }
+
+            const baseRatePerPage = 450;
+            const mathPages = pageCountEl ? parseInt(pageCountEl.value) || 1 : 1; 
+            const totalEstimateCost = mathPages * baseRatePerPage;
+
+            const priceContainer = document.getElementById('sum-price');
+            if (priceContainer) {
+                priceContainer.textContent = `${totalEstimateCost.toLocaleString('ru-RU')} ₽`;
+            }
+
         }
 
         if (form) {

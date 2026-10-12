@@ -23,6 +23,7 @@
                 <a class="nav-link" data-step="2" href="#">2</a>
                 <a class="nav-link" data-step="3" href="#">3</a>
                 <a class="nav-link" data-step="4" href="#">4</a>
+                <a class="nav-link" data-step="5" href="#">5</a>
 
             </div>
 
@@ -49,8 +50,8 @@
 
                         <div class="form-group">
 
-                            <label for="id_lang_form">Язык оригинала:</label>
-                            <select id="id_lang_form" name="language_form">
+                            <label for="id_lang_from">Язык оригинала:</label>
+                            <select id="id_lang_from" name="language_from">
 
                                 <option value="en" selected>Английский</option>
                                 <option value="ar">Арабский</option>
@@ -131,7 +132,7 @@
                             <div id="panel-online" class="conditional-panel">
 
                                 <label for="id_online">Сервис для видеосвязи (+ ссылка если есть)</label>
-                                <input type="text" id="id_online" name="type_online" required>
+                                <input type="text" id="id_online" name="type_online">
 
                             </div>
 
@@ -140,7 +141,7 @@
                                 <h2>Адрес</h2>
 
                                 <label for="id_offline_address">Улица, дом, город, страна</label>
-                                <input type="text" id="id_offline_address" name="offline_address" required>
+                                <input type="text" id="id_offline_address" name="offline_address">
 
                             </div>
 
@@ -283,7 +284,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('multi-step-form');
         const steps = Array.from(document.querySelectorAll('.form-step'));
-        const navlinks = Array.from(document.querySelectorAll('.nav-link'));
+        const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
         let currentStep = 1;
         let maxStepReached = 1;
@@ -295,19 +296,21 @@
 
         if(meetType) {
             meetType.addEventListener('change', () => {
-                if (initialInput) {
-                    initialInput.required = false;
-                }
-                
+                if (onlineInput) onlineInput.required = false;
+                if (addressInput) addressInput.required = false;
+
                 if (meetType.value === 'online-vid') {
                     if (panelOnline) panelOnline.classList.remove('hidden');
-                    if (panelOffline) panelOffline.classList.add('hidden')
-                    if (initialInput) initialInput.required = true;
+                    if (panelOffline) panelOffline.classList.add('hidden');
+                    if (onlineInput) onlineInput.required = true;
+                    if (addressInput) addressInput.value = '';
+
 
                 } else if (meetType.value === 'offline') {
                     if (panelOnline) panelOnline.classList.add('hidden');
-                    if (panelOffline) panelOffline.classList.remove('hdden');
-                    if (initialInput) initialInput.value = '';
+                    if (panelOffline) panelOffline.classList.remove('hidden'); 
+                    if (addressInput) addressInput.required = true;
+                    if (onlineInput) onlineInput.value = '';
                 }
             });
         }
@@ -315,7 +318,7 @@
         const dateInput = document.getElementById('id_date');
         if (dateInput) {
             const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.get(Date) + 1);
+            tomorrow.setDate(tomorrow.getDate() + 1);
             dateInput.min = tomorrow.toISOString().split('T')[0];
         }
 
@@ -373,12 +376,12 @@
             
             const speechTypeContainer = document.getElementById('sum-speech-type');
             if (speechTypeContainer && speechType) {
-                speechTypeContainer.textContent = speechType.options[speechTypeContainer.selectedIndex].text;
+                speechTypeContainer.textContent = speechType.options[speechType.selectedIndex].text;
             }
 
             const meetTypeContainer = document.getElementById('sum-meet-type');
             if (meetTypeContainer && meetType) {
-                meetTypeContainer.textContent = meetType.options[meetTypeContainer.selectedIndex].text;
+                meetTypeContainer.textContent = meetType.options[meetType.selectedIndex].text;
             }
                         
             const dateContainer = document.getElementById('sum-date');

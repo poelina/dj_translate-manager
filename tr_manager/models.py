@@ -1,6 +1,17 @@
 import os
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+
+def validate_file_ext(value):
+    ext = os.path.splitext(value.name)[1].lower()
+    valid_extensions = ['.pdf', '.docx', '.doc', '.txt', '.odt', '.rtf', '.png', '.jpg', '.jpeg']
+    
+    if ext not in valid_extensions:
+        raise ValidationError(f"Неподдерживаемый тип файла. Допустимы только: {', '.join(valid_extensions)}")
+    
+    if value.size > 104857600:
+        raise ValidationError("Файл слишком большой. Максимальный размер: 100 МБ.")
 
 def get_upload_path(instance, filename):
     return os.path.join('orders', instance.service_type, filename)
@@ -9,13 +20,25 @@ class Order(models.Model):
     SERVICE_CHOICES = [
         ('text', 'Письменный перевод'),
         ('speech', 'Устный перевод'),
-        ('audio', 'Перевод аудио в текст'),
     ]
 
     DELIVERY_CHOICES = [
         ('digital', 'Загрузить скан на сайт'),
         ('post', 'Физическая почта / Курьер'),
         ('office', 'Лично в офисе'),
+    ]
+
+    MEETING_CHOICES = [
+        ('online', 'Онлайн (видеозвонок)'),
+        ('offline', 'Лично (офлайн мероприятие)'),
+    ]
+
+    STATUS_CHOICES = [
+        ('new', 'Новый (Ожидает проверки)'),
+        ('in_progress', 'В работе'),
+        ('review', 'На проверке'),
+        ('completed', 'Завершён'),
+        ('canceled', 'Отменён'),
     ]
 
     service_type = models.CharField(max_length=30, choices=SERVICE_CHOICES, verbose_name="Тип услуги")
@@ -33,6 +56,7 @@ class Order(models.Model):
     )
     document_file = models.FileField(
         upload_to=get_upload_path, 
+        validators=[validate_file_ext],
         null=True, 
         blank=True, 
         verbose_name="Загруженный файл"
@@ -44,7 +68,11 @@ class Order(models.Model):
         verbose_name="Количество страниц"
     )
     deadline_date = models.DateField(null=True, blank=True, verbose_name="Срок исполнения")
-
+    
+    speech_type = models.CharField(max_length=30, null=True, blank=True, verbose_name="Вид устного перевода")
+    meeting_format = models.CharField(max_length=20, choices=MEETING_CHOICES, null=True, blank=True, verbose_name="Формат встречи")
+    online_details = models.CharField(max_length=255, null=True, blank=True, verbose_name="Детали онлайн-встречи")
+    address_details = models.CharField(max_length=500, null=True, blank=True, verbose_name="Адрес проведения офлайн")
     event_date = models.DateTimeField(null=True, blank=True, verbose_name="Дата и время устного мероприятия")
 
     first_name = models.CharField(max_length=100, verbose_name="Имя")
