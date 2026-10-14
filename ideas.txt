@@ -1,5 +1,4 @@
 - create 'topic' option
-- modify deadline warning for 'speech'
 - add option in calendar to select multiple days?
-- add 'other' text input in some places
-- add 'additional notes' at the end for each type
+- add 'other' text input in some fields
+- add 'additional notes' at the end for each path

@@ -25,3 +25,42 @@ Traceback (most recent call last):
     )
 TypeError: Order() got unexpected keyword arguments: 'meet_type', 'type_online', 'offline_address', 'deadline'
 2026-10-12 20:15:58,630 [INFO] tr_manager -> SUCCESS: Speech translation order #5 committed into database layout for client lkdjh@mail.ru
+2026-10-14 16:28:55,980 [INFO] tr_manager -> SUCCESS: Speech translation order #6 committed into database layout for client test@mail.ru
+2026-10-14 16:30:18,732 [ERROR] tr_manager -> DATABASE TRANSACTION FAILED for order request by user ivan@mail.ru. Error: Order() got unexpected keyword arguments: 'status', 'price_estimate'
+Traceback (most recent call last):
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\tr_manager\views.py", line 50, in text
+    order = Order.objects.create(
+        service_type='text',
+    ...<13 lines>...
+        document_file=uploaded_file
+    )
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\query.py", line 750, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\base.py", line 610, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Order() got unexpected keyword arguments: 'status', 'price_estimate'
+2026-10-14 16:50:13,745 [INFO] tr_manager -> SUCCESS: Speech translation order #7 committed into database layout for client petr@mail.ru
+2026-10-14 17:02:27,840 [INFO] tr_manager -> SUCCESS: Speech translation order #8 committed into database layout for client olga@mail.ru
+2026-10-14 17:08:54,784 [ERROR] tr_manager -> DATABASE TRANSACTION FAILED for order request by user ivan@mail.ru. Error: Order() got unexpected keyword arguments: 'status', 'price_estimate'
+Traceback (most recent call last):
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\tr_manager\views.py", line 50, in text
+    order = Order.objects.create(
+        service_type='text',
+    ...<13 lines>...
+        document_file=uploaded_file
+    )
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\query.py", line 750, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\st_ac\Desktop\dj_translate-manager\.venv\Lib\site-packages\django\db\models\base.py", line 610, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Order() got unexpected keyword arguments: 'status', 'price_estimate'

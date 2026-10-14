@@ -131,16 +131,14 @@
 
                             <div id="panel-online" class="conditional-panel">
 
-                                <label for="id_online">Сервис для видеосвязи (+ ссылка если есть)</label>
+                                <label for="id_online">📞 Сервис / Ссылка для видеосвязи</label>
                                 <input type="text" id="id_online" name="type_online">
 
                             </div>
 
-                            <div id="panel-offline" class="conditional-panel" hidden>
+                            <div id="panel-offline" class="conditional-panel hidden">
 
-                                <h2>Адрес</h2>
-
-                                <label for="id_offline_address">Улица, дом, город, страна</label>
+                                <label for="id_offline_address">🏢 Адрес</label>
                                 <input type="text" id="id_offline_address" name="offline_address">
 
                             </div>
@@ -292,7 +290,8 @@
         const meetType = document.getElementById('id_meet_type');
         const panelOnline = document.getElementById('panel-online');
         const panelOffline = document.getElementById('panel-offline');
-        const initialInput = document.getElementById('id_online');
+        const onlineInput = document.getElementById('type_online');
+        const addressInput = document.getElementById('id_offline_address');
 
         if(meetType) {
             meetType.addEventListener('change', () => {

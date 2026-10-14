@@ -65,7 +65,7 @@ def text(request):
                 document_file=uploaded_file
             )
 
-            logger.info(f"SUCCESS: Written order #{order.id} saved with computed quote value {calculated_total_price} ₽. Service: text | Client: {last_name} ({email})")
+            logger.info(f"SUCCESS: Written order #{order.id} saved with computed quote value {calculated_total_price} RUB. Service: text | Client: {last_name} ({email})")
             
             request.session['latest_order_id'] = order.id
             messages.success(request, "Ваш заказ успешно принят в обработку!")

@@ -83,6 +83,9 @@ class Order(models.Model):
     is_company = models.BooleanField(default=False, verbose_name="Юридическое лицо")
     company_name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Название компании")
 
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Статус заказа")
+    price_estimate = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name="Предварительная стоимость (₽)")
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = "Заказ"
